@@ -1,12 +1,15 @@
 @import './base.scss';
+@import './colors.scss';
+@import './transitions.scss';
 
-$green: #234a2d;
+.relative {
+  position: relative;
+}
 
-$sea: #326f68;
+.move-out {
+  transform: translateX(-100vw);
+}
 
-$light-brown: #a39384;
-
-$brown: #4b3d30;
-$dark-gray: #232323;
-
-$light-gray: #c2bfc0;
+.animated {
+    transition: $base-transition;
+}

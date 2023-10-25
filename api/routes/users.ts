@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-import MongoModel from '../db/generic';
-import { UserModel, userSchema } from '../db/models/user'
+const { MongoModel } = require('../db/generic.ts')
+
+const { UserModel, userSchema } = require('../db/models/user.ts')
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {

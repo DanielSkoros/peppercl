@@ -1,0 +1,17 @@
+@import "../../../assets/colors.scss";
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    .search-input {
+        background-color: $light-gray;
+        border: 2px solid $green inset;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+    .search-icon {
+        position: relative;
+        left: 30px;
+        top: 2px;
+    }
+}

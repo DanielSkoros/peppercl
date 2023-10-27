@@ -8,12 +8,13 @@
   </div>
   <div class="sidebar__backdrop" :class="{'visible': isOpen}"></div>
   <div class="sidebar" :class="{'visible': isOpen}">
-
+    <SearchBar />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import SearchBar from '../NavItem/SearchBar.vue';
 const emit = defineEmits(['open'])
 
 const isOpen = ref<Boolean>(false)

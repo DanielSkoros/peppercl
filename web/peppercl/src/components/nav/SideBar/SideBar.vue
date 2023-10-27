@@ -6,7 +6,10 @@
       <div class="nav-burger__bar" :class="{ open__reverse: isOpen }"></div>
     </div>
   </div>
-  <div class="sidebar__backdrop"></div>
+  <div class="sidebar__backdrop" :class="{'visible': isOpen}"></div>
+  <div class="sidebar" :class="{'visible': isOpen}">
+
+  </div>
 </template>
 
 <script lang="ts" setup>

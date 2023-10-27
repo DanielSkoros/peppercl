@@ -25,6 +25,8 @@ const setSidebarState = (state: boolean) => {
 
 <style lang="scss">
 .nav-container {
+  position: relative;
+  z-index: 4;
   color: white;
   width: 100%;
   background: black;

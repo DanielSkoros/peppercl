@@ -13,3 +13,7 @@
 .animated {
     transition: $base-transition;
 }
+
+.overflow-hidden {
+  overflow: hidden !important;
+}

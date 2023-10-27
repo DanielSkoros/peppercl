@@ -6,6 +6,7 @@
       <div class="nav-burger__bar" :class="{ open__reverse: isOpen }"></div>
     </div>
   </div>
+  <div class="sidebar__backdrop"></div>
 </template>
 
 <script lang="ts" setup>
@@ -20,29 +21,5 @@ const setIsOpen = () => {
 </script>
 
 <style lang="scss" scoped>
-.nav-burger__icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  transition: transform 0.5s ease;
-
-  &.open {
-    transform: translateX(calc(-100vw + 45px)) translateY(6px);
-  }
-  .nav-burger__bar {
-    height: 3px;
-    width: 25px;
-    background-color: white;
-    transition: transform 0.5s ease;
-
-    &.open {
-      transform: rotate(45deg) translateY(6px);
-    }
-    &.open__reverse {
-      transform: rotate(-45deg) translateY(-6px);
-    }
-  }
-}
+@import './index.scss';
 </style>

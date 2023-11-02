@@ -33,5 +33,30 @@ const getMainNav = (): Array<INavItem> => {
             "link": "/Home",
             "icon": "io-home-outline",
         },
+        {
+            "name": "Home",
+            "link": "/Home",
+            "icon": "io-home-outline",
+        },
+        {
+            "name": "Home",
+            "link": "/Home",
+            "icon": "io-home-outline",
+        },
+        {
+            "name": "Home",
+            "link": "/Home",
+            "icon": "io-home-outline",
+        },
+        {
+            "name": "Home",
+            "link": "/Home",
+            "icon": "io-home-outline",
+        },
+        {
+            "name": "Home",
+            "link": "/Home",
+            "icon": "io-home-outline",
+        },
     ]
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar__wrapper relative">
-    <div @click.stop="setIsOpen" class="nav-burger__icon" :class="{ open: isOpen }">
+    <div @click.stop="() => setIsOpen()" class="nav-burger__icon" :class="{ open: isOpen }">
       <div class="nav-burger__bar" :class="{ open: isOpen }"></div>
       <div class="nav-burger__bar" v-show="!isOpen"></div>
       <div class="nav-burger__bar" :class="{ open__reverse: isOpen }"></div>
@@ -24,21 +24,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import SearchBar from '../NavItem/SearchBar.vue'
 import NavItem from '../NavItem/NavItem.vue'
 import { getBottomNav, getNavRoutes, type INavItem } from '@/constants/nav'
 
+const route = useRoute()
 const emit = defineEmits(['open'])
 
 const isOpen = ref<Boolean>(false)
-const setIsOpen = () => {
-  isOpen.value = !isOpen.value
+const setIsOpen = (state: boolean | undefined = undefined) => {
+  if (state != undefined) isOpen.value = state
+  else isOpen.value = !isOpen.value
   emit('open', isOpen.value)
 }
 
 const navRoutes = ref<Array<INavItem>>(getNavRoutes())
 const lowerRoutes = ref<Array<INavItem>>(getBottomNav())
+
+watch(
+  () => route.name,
+  () => {
+    setIsOpen(false)
+  }
+)
 </script>
 
 <style lang="scss" scoped>

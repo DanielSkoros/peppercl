@@ -1,17 +1,42 @@
-@import "../../../assets/colors.scss";
+@import '../../../assets/colors.scss';
 
-.input-wrapper {
+$search-border: 2px solid $green;
+
+.search-input__wrapper {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 0.8em;
+    transform: translateY(23px) translateX(35px);
+    opacity: 0.6;
+    transition: all 0.5s ease;
+    &.focused {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+      color: $sea;
+    }
+  }
+  .search-input__container {
     position: relative;
-    width: 100%;
+    border: $search-border;
+    border-radius: 10px;
+    &.focused {
+        outline: $search-border;
+      }
+    color: white;
     .search-input {
-        background-color: $light-gray;
-        border: 2px solid $green inset;
-        padding: 5px 10px;
-        border-radius: 10px;
+      border: none;
+      background-color: transparent;
+      padding-left: 5px;
+      color: white;
+      &:focus {
+        outline: none;
+      }
     }
     .search-icon {
-        position: relative;
-        left: 30px;
-        top: 2px;
+      position: relative;
+      left: 5px;
+      top: 0;
     }
+  }
 }

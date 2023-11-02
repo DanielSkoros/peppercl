@@ -5,9 +5,9 @@ import App from './App.vue'
 import router from './router'
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { BiSearch  } from "oh-vue-icons/icons";
+import { BiSearch, CoUser, IoHomeOutline, CoPowerStandby  } from "oh-vue-icons/icons";
 
-addIcons(BiSearch);
+addIcons(BiSearch, CoUser, IoHomeOutline, CoPowerStandby  );
 
 const app = createApp(App)
 

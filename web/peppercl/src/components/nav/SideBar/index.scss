@@ -1,2 +1,30 @@
 @import "./burger.scss";
 @import "./sidebar.scss";
+
+nav {
+    font-size: 1.1em;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.sidebar__search-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.nav__item-wrapper {
+    margin-top: 10%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    width: 100%;
+    padding-right: 20px;
+    
+    &.lower {
+        margin-top: auto;
+    }
+}

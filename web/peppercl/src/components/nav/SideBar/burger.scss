@@ -1,3 +1,5 @@
+$burger-offset:45px;
+
 .nav-burger__icon {
   position: relative;
   z-index: 5;
@@ -9,7 +11,7 @@
   transition: transform 0.5s ease;
 
   &.open {
-    transform: translateX(calc(-100vw + 45px)) translateY(6px);
+    transform: translateX(calc(-100vw + $burger-offset)) translateY(6px);
   }
   .nav-burger__bar {
     height: 3px;

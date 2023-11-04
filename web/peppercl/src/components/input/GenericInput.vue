@@ -34,7 +34,7 @@ const handleInputChange = (event: Event) => {
       <v-icon :name="icon" class="generic-icon" fill="black"/>
       <input
         name="generic-input"
-        type="text"
+        :type="type"
         @change="(event: Event) => handleInputChange(event)"
         :value="genericInput.value"
         @click="genericInput.isFocused = true"

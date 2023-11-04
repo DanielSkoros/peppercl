@@ -8,6 +8,7 @@
         :name="formField.name"
         :type="formField.type"
         :icon="formField.icon"
+        @change="(v: string | number | any) => formField.value = v"
       />
       <span class="register-cta" @click="isRegister=!isRegister"> {{ isRegister ? 'Already h' : "Don't h"}}ave an account? {{ isRegister ? 'Login' : 'Register' }} here</span>
     </div>
@@ -20,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+import { request } from "@/utils/request"
 import { type IInput } from '@/components/input/interfaces.ts'
 import GenericInput from '@/components/input/GenericInput.vue'
 import { reactive, ref, watch } from 'vue'
@@ -52,10 +54,15 @@ watch(isRegister, (state) => {
   else formFields.pop()
 })
 
-const dispatchAction = () => {
-  return
+const dispatchAction = async () => {
+  const payload: { [key: string]: any } = {};
+  formFields.forEach(field => {    
+    payload[field.name] = field.value 
+  })
+  await request({url: 'dupa'})
 }
 </script>
+
 
 <style lang="scss" scoped>
 @import "@/assets/colors.scss";

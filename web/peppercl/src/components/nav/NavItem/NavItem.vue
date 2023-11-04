@@ -35,19 +35,18 @@ withDefaults(defineProps<INavItem>(), {
 </style>
 
 <style lang="scss">
-a,
-i,
-svg,
-path {
-  color: white !important;
-  text-decoration: none !important;
-  fill: white !important;
-}
-
 .nav-item {
   transition: transform ease 1s;
   &:hover {
     transform: translateX(-10px);
+  }
+  a,
+  i,
+  svg,
+  path {
+    color: white !important;
+    text-decoration: none !important;
+    fill: white !important;
   }
 }
 </style>

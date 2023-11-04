@@ -1,18 +1,10 @@
 <script lang="ts" setup>
+import {InputProps, IInput} from "./interfaces.ts"
 import { reactive } from 'vue'
 
 const emit = defineEmits(['change'])
 
-interface IInput {
-  name: string
-  value?: string | number | object | Array<any> | boolean
-  type?: string
-  isFocused?: boolean
-  icon?: string | null
-  label?: string
-}
-
-const props = withDefaults(defineProps<IInput>(), {
+withDefaults(defineProps<InputProps>(), {
   type: 'text',
   icon: null,
   label: '',
@@ -21,7 +13,6 @@ const props = withDefaults(defineProps<IInput>(), {
 })
 
 const genericInput = reactive<IInput>({
-  ...props,
   value: '',
   isFocused: false
 })
@@ -40,7 +31,7 @@ const handleInputChange = (event: Event) => {
        <span v-if="!genericInput.isFocused">...</span>
     </label>
     <div class="generic-input__container" :class="{ focused: genericInput.isFocused }">
-      <v-icon :name="genericInput.icon" class="generic-icon" />
+      <v-icon :name="icon" class="generic-icon" fill="black"/>
       <input
         name="generic-input"
         type="text"

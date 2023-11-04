@@ -2,42 +2,42 @@
 
 $generic-border: 2px solid $green;
 
-
 .generic-input__wrapper {
-    display: flex;
-    flex-direction: column;
-    label {
-      font-size: 0.8em;
-      transform: translateY(23px) translateX(35px);
-      opacity: 0.6;
-      transition: all 0.5s ease;
-      &.focused {
-        transform: translateX(0) translateY(0);
-        opacity: 1;
-        color: $sea;
-      }
-    }
-    .generic-input__container {
-      position: relative;
-      border: $generic-border;
-      border-radius: 10px;
-      &.focused {
-          outline: $generic-border;
-        }
-      color: white;
-      .generic-input {
-        border: none;
-        background-color: transparent;
-        padding-left: 5px;
-        color: white;
-        &:focus {
-          outline: none;
-        }
-      }
-      .generic-icon {
-        position: relative;
-        left: 5px;
-        top: 0;
-      }
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 0.8em;
+    transform: translateY(23px) translateX(35px);
+    opacity: 0.6;
+    transition: all 0.5s ease;
+    &.focused {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+      color: $sea;
     }
   }
+  .generic-input__container {
+    position: relative;
+    border: $generic-border;
+    border-radius: 10px;
+    &.focused {
+      outline: $generic-border;
+    }
+    color: white;
+    .generic-input {
+      border: none;
+      background-color: transparent;
+      padding-left: 5px;
+      color: $sea;
+      &:focus {
+        outline: none;
+      }
+    }
+    .generic-icon {
+      position: relative;
+      left: 5px;
+      top: 0;
+      fill: black !important;
+    }
+  }
+}

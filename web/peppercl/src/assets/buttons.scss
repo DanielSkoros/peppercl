@@ -1,0 +1,15 @@
+@import "./colors.scss";
+
+.default-btn {
+    padding: 5px 10px;
+    background-color: transparent;
+    color: black;
+    border: 2px solid $green;
+    border-radius: 10%;
+    transition: all 0.25s ease-in;
+    cursor: pointer;
+    &:hover {
+        background-color: $green;
+        color: white;
+    }
+}

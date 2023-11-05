@@ -15,6 +15,6 @@ export const request = async ({ url = '', method = 'GET', query = {}, payload = 
   if (method == 'POST')
     requestArgs.payload = typeof payload !== 'string' ? JSON.stringify(payload) : payload
   const res = await fetch(`${BASE_URL}${url}`, requestArgs)
-
-  return { status: res.status, data: res.json() }
+  const data = await res.json()
+  return { status: res.status, data }
 }

@@ -3,6 +3,7 @@ export interface InputProps {
   type?: string
   icon?: string | null
   label?: string
+  invalidResponse?: string
 }
 
 export interface IInput extends InputProps {

@@ -8,23 +8,28 @@
         :name="formField.name"
         :type="formField.type"
         :icon="formField.icon"
-        @change="(v: string | number | any) => formField.value = v"
+        :invalid-response="formValidation[formField.name]"
+        @change="(v: string | number | any) => (formField.value = v)"
       />
-      <span class="register-cta" @click="isRegister=!isRegister"> {{ isRegister ? 'Already h' : "Don't h"}}ave an account? {{ isRegister ? 'Login' : 'Register' }} here</span>
+      <span class="register-cta" @click="isRegister = !isRegister">
+        {{ isRegister ? 'Already h' : "Don't h" }}ave an account?
+        {{ isRegister ? 'Login' : 'Register' }} here</span
+      >
     </div>
     <div class="btns-container">
       <button @click="dispatchAction()" class="default-btn">
-        {{ isRegister ? 'Sign up' : 'Login'  }}
+        {{ isRegister ? 'Sign up' : 'Login' }}
       </button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { request } from "@/utils/request"
+import { reactive, ref, watch } from 'vue'
+import { request } from '@/utils/request'
+import { type IFormValidation, type IFormValidationResponse, type IErrorProperty } from './interfaces.ts'
 import { type IInput } from '@/components/input/interfaces.ts'
 import GenericInput from '@/components/input/GenericInput.vue'
-import { reactive, ref, watch } from 'vue'
 
 const imgSrc =
   'https://img.freepik.com/free-vector/lake-mountain-valley-concept-illustration_114360-14594.jpg?w=1060&t=st=1699119499~exp=1699120099~hmac=45dc39c7fbefd817b517e097958d706cb5da05b9fdb7f7c4f7d0a47d9e3cb39d'
@@ -44,6 +49,8 @@ const formFields: Array<IInput> = reactive([
   }
 ])
 
+let formValidation = reactive<IFormValidation>({})
+
 const registerField = {
   name: 'user',
   type: 'text',
@@ -52,20 +59,42 @@ const registerField = {
 watch(isRegister, (state) => {
   if (state) formFields.push(registerField)
   else formFields.pop()
+  setFormValidation({})
 })
 
 const dispatchAction = async () => {
-  const payload: { [key: string]: any } = {};
-  formFields.forEach(field => {    
-    payload[field.name] = field.value 
+  setFormValidation()
+  const payload: { [key: string]: any } = {}
+  formFields.forEach((field) => {
+    payload[field.name] = field.value
   })
-  await request({url: isRegister.value ? '/users/register' : '/users/login', method: "POST"})
+  const { status, data } = await request({
+    url: isRegister.value ? '/users/register' : '/users/login',
+    method: 'POST'
+  })
+  
+  if (isRegister.value) return handleRegisterResponse(status, data)
+  handleLoginResponse(status, data)
+}
+
+const setFormValidation = (formValidationData?: IFormValidationResponse | any) => {
+  if (!formValidationData) formValidation = {}
+  Object.entries(formValidationData?.['message']?.errors || {}).forEach(([name, properties]) => {
+    if (properties)
+    formValidation[name] = properties.message.replace('Path', '')
+  })
+}
+
+const handleLoginResponse = (status: number, data) => {}
+
+const handleRegisterResponse = (status: number, data: IFormValidation) => {
+  if (status === 400) return setFormValidation(data)
+  isRegister.value = false
 }
 </script>
 
-
 <style lang="scss" scoped>
-@import "@/assets/colors.scss";
+@import '@/assets/colors.scss';
 @mixin wrapper-mixin {
   width: 100%;
   display: flex;
@@ -75,13 +104,13 @@ const dispatchAction = async () => {
 .register-cta {
   margin-top: 15px;
   font-size: 0.75rem;
-  color: $light-brown
+  color: $light-brown;
 }
 .main-image {
   width: 100%;
 }
-.btns-container { 
-  @include wrapper-mixin
+.btns-container {
+  @include wrapper-mixin;
 }
 .form-container {
   @include wrapper-mixin;

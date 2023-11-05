@@ -9,7 +9,7 @@ const { UserModel } = require("../db/models/user.ts");
 router.get(
   "/",
   async function (req: any, res: { send: (arg0: any) => void }, next: any) {
-    const users = await UserModel.all();
+    const users = await UserModel.find({});
     res.send(users);
   }
 );
@@ -20,7 +20,7 @@ router.get(
     req: { params: { id: string } },
     res: { send: (arg0: IUser) => void }
   ) => {
-    const user = await UserModel.byId(req.params.id);
+    const user = await UserModel.find({id: req.params.id});
     res.send(user);
   }
 );

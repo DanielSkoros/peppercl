@@ -2,6 +2,11 @@
 
 $generic-border: 2px solid $green;
 
+.invalid-response {
+  color: red;
+  text-transform: capitalize;
+}
+
 .generic-input__wrapper {
   display: flex;
   flex-direction: column;

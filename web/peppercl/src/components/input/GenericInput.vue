@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {type InputProps, type IInput} from "./interfaces.ts"
+import { type InputProps, type IInput } from './interfaces.ts'
 import { reactive } from 'vue'
 
 const emit = defineEmits(['change'])
@@ -9,9 +9,10 @@ const props = withDefaults(defineProps<InputProps>(), {
   icon: null,
   label: '',
   name: '',
-  show: true
+  show: true,
+  invalidResponse: ""
 })
-
+console.log(props.invalidResponse)
 const genericInput = reactive<IInput>({
   name: props.name,
   value: '',
@@ -28,11 +29,11 @@ const handleInputChange = (event: Event) => {
 <template>
   <div class="generic-input__wrapper">
     <label for="generic-input" :class="{ focused: genericInput.isFocused }">
-      <span class="capitalize">{{  label || name  }}</span>   
-       <span v-if="!genericInput.isFocused">...</span>
+      <span class="capitalize">{{ label || name }}</span>
+      <span v-if="!genericInput.isFocused">...</span>
     </label>
     <div class="generic-input__container" :class="{ focused: genericInput.isFocused }">
-      <v-icon :name="icon" class="generic-icon" fill="black"/>
+      <v-icon :name="icon" class="generic-icon" fill="black" />
       <input
         name="generic-input"
         :type="type"
@@ -42,6 +43,7 @@ const handleInputChange = (event: Event) => {
         class="generic-input"
       />
     </div>
+    <small v-if="invalidResponse" class="invalid-response">{{ invalidResponse }}</small>
   </div>
 </template>
 

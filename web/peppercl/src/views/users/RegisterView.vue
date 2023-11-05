@@ -59,7 +59,7 @@ const dispatchAction = async () => {
   formFields.forEach(field => {    
     payload[field.name] = field.value 
   })
-  await request({url: isRegister.value ? '/register' : '/login'})
+  await request({url: isRegister.value ? '/users/register' : '/users/login', method: "POST"})
 }
 </script>
 

@@ -47,4 +47,6 @@ app.use(function (
   res.render("error");
 });
 
+const db = require('./db/main.ts')
+
 module.exports = app;

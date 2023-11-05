@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {InputProps, IInput} from "./interfaces.ts"
+import {type InputProps, type IInput} from "./interfaces.ts"
 import { reactive } from 'vue'
 
 const emit = defineEmits(['change'])
 
-withDefaults(defineProps<InputProps>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   type: 'text',
   icon: null,
   label: '',
@@ -13,6 +13,7 @@ withDefaults(defineProps<InputProps>(), {
 })
 
 const genericInput = reactive<IInput>({
+  name: props.name,
   value: '',
   isFocused: false
 })

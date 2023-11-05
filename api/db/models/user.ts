@@ -9,11 +9,21 @@ export interface IUser {
 }
 
 export const userSchema = new mongoose.Schema<IUser>({
-    name: String,
-    email: String,
-    password: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     posts: Array<IPost>,
 });
 
 export const UserModel = mongoose.model<IUser>('User', userSchema)
-

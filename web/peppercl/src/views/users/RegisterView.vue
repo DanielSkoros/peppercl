@@ -88,7 +88,10 @@ const setFormValidation = async (formValidationData?: IFormValidationResponse | 
   })
 }
 
-const handleLoginResponse = (status: number, data) => {}
+
+const handleLoginResponse = (status: number, data: {token: string} | IFormValidationResponse) => {
+  if (data?.token) document.cookie = 'auth=' + data.token
+}
 
 const handleRegisterResponse = (status: number, data: IFormValidation) => {
   if (status === 400) return setFormValidation(data)

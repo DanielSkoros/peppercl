@@ -6,10 +6,11 @@
         :key="formField.name"
         v-for="formField in formFields"
         :name="formField.name"
+        :label="formField.label"
         :type="formField.type"
         :icon="formField.icon"
         :invalid-response="formValidation[formField.name]"
-        @change="(v: string | number | any) => (formField.value = v)"
+        @change="(v: string | number | any) => (handleInput(v, formField))"
       />
       <span class="register-cta" @click="isRegister = !isRegister">
         {{ isRegister ? 'Already h' : "Don't h" }}ave an account?
@@ -27,14 +28,17 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from 'vue'
 import { request } from '@/utils/request'
-import { type IFormValidation, type IFormValidationResponse, type IErrorProperty } from './interfaces.ts'
+import {
+  type IFormValidation,
+  type IFormValidationResponse,
+} from './interfaces.ts'
 import { type IInput } from '@/components/input/interfaces.ts'
 import GenericInput from '@/components/input/GenericInput.vue'
 
-const imgSrc =
-  'https://img.freepik.com/free-vector/lake-mountain-valley-concept-illustration_114360-14594.jpg?w=1060&t=st=1699119499~exp=1699120099~hmac=45dc39c7fbefd817b517e097958d706cb5da05b9fdb7f7c4f7d0a47d9e3cb39d'
+const imgSrc = 'https://img.freepik.com/free-vector/lake-mountain-valley-concept-illustration_114360-14594.jpg?w=1060&t=st=1699119499~exp=1699120099~hmac=45dc39c7fbefd817b517e097958d706cb5da05b9fdb7f7c4f7d0a47d9e3cb39d'
 
 const isRegister = ref<boolean>(false)
+const formValidation = ref<IFormValidation>({})
 
 const formFields: Array<IInput> = reactive([
   {
@@ -49,10 +53,9 @@ const formFields: Array<IInput> = reactive([
   }
 ])
 
-let formValidation = reactive<IFormValidation>({})
-
 const registerField = {
-  name: 'user',
+  name: 'name',
+  label: "User name",
   type: 'text',
   icon: 'fa-user'
 }
@@ -64,24 +67,24 @@ watch(isRegister, (state) => {
 
 const dispatchAction = async () => {
   setFormValidation()
-  const payload: { [key: string]: any } = {}
+  const body: { [key: string]: any } = {}
   formFields.forEach((field) => {
-    payload[field.name] = field.value
+    body[field.name] = field.value
   })
   const { status, data } = await request({
     url: isRegister.value ? '/users/register' : '/users/login',
-    method: 'POST'
+    method: 'POST',
+    body
   })
-  
+
   if (isRegister.value) return handleRegisterResponse(status, data)
   handleLoginResponse(status, data)
 }
 
-const setFormValidation = (formValidationData?: IFormValidationResponse | any) => {
-  if (!formValidationData) formValidation = {}
+const setFormValidation = async (formValidationData?: IFormValidationResponse | any) => {
+  if (!formValidationData) formValidation .value= {}
   Object.entries(formValidationData?.['message']?.errors || {}).forEach(([name, properties]) => {
-    if (properties)
-    formValidation[name] = properties.message.replace('Path', '')
+    if (properties) formValidation.value[name] = properties.message.replace('Path', '')
   })
 }
 
@@ -90,6 +93,11 @@ const handleLoginResponse = (status: number, data) => {}
 const handleRegisterResponse = (status: number, data: IFormValidation) => {
   if (status === 400) return setFormValidation(data)
   isRegister.value = false
+}
+
+const handleInput = async (v: string | number | null, formField: IInput) => {
+  formField.value = v; 
+  formValidation.value[formField.name] = ""
 }
 </script>
 

@@ -7,7 +7,7 @@ export interface InputProps {
 }
 
 export interface IInput extends InputProps {
-  value?: string | number | object | Array<any> | boolean
+  value?: string | number | object | Array<any> | boolean | null
   isFocused?: boolean
   key?: any
 }

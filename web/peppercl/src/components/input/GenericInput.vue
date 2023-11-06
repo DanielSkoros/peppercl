@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   show: true,
   invalidResponse: ""
 })
-console.log(props.invalidResponse)
+
 const genericInput = reactive<IInput>({
   name: props.name,
   value: '',
@@ -39,7 +39,7 @@ const handleInputChange = (event: Event) => {
         :type="type"
         @change="(event: Event) => handleInputChange(event)"
         :value="genericInput.value"
-        @click="genericInput.isFocused = true"
+        @focus="genericInput.isFocused = true"
         class="generic-input"
       />
     </div>

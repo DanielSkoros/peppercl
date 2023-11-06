@@ -33,6 +33,7 @@ router.post(
   ) {
     
     const userBody = req.body;
+    console.log(userBody)
     try {
       const user = new UserModel(userBody);
       const userRes = await user.save();

@@ -22,6 +22,7 @@
         {{ isRegister ? 'Sign up' : 'Login' }}
       </button>
     </div>
+    <PAlert :text="loginResponse"/>
   </div>
 </template>
 
@@ -34,10 +35,13 @@ import {
 } from './interfaces.ts'
 import { type IInput } from '@/components/input/interfaces.ts'
 import GenericInput from '@/components/input/GenericInput.vue'
+import PAlert from '@/components/alert/PAlert.vue'
+import router from '@/router'
 
 const imgSrc = 'https://img.freepik.com/free-vector/lake-mountain-valley-concept-illustration_114360-14594.jpg?w=1060&t=st=1699119499~exp=1699120099~hmac=45dc39c7fbefd817b517e097958d706cb5da05b9fdb7f7c4f7d0a47d9e3cb39d'
 
 const isRegister = ref<boolean>(false)
+const loginResponse = ref<string | undefined>(undefined)
 const formValidation = ref<IFormValidation>({})
 
 const formFields: Array<IInput> = reactive([
@@ -66,6 +70,7 @@ watch(isRegister, (state) => {
 })
 
 const dispatchAction = async () => {
+  loginResponse.value = undefined;
   setFormValidation()
   const body: { [key: string]: any } = {}
   formFields.forEach((field) => {
@@ -84,13 +89,17 @@ const dispatchAction = async () => {
 const setFormValidation = async (formValidationData?: IFormValidationResponse | any) => {
   if (!formValidationData) formValidation .value= {}
   Object.entries(formValidationData?.['message']?.errors || {}).forEach(([name, properties]) => {
-    if (properties) formValidation.value[name] = properties.message.replace('Path', '')
+    if (properties) formValidation.value[name] = properties?.message?.replace('Path', '')
   })
 }
 
 
-const handleLoginResponse = (status: number, data: {token: string} | IFormValidationResponse) => {
-  if (data?.token) document.cookie = 'auth=' + data.token
+const handleLoginResponse = (status: number, data: IFormValidationResponse) => {
+  if (data?.token) {
+    document.cookie = 'auth=' + data.token;
+    router.push({name: 'Home'});
+  }
+  else if(data?.message) loginResponse.value = data.message
 }
 
 const handleRegisterResponse = (status: number, data: IFormValidation) => {

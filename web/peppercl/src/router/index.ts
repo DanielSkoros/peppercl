@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCookie } from "../utils/request.ts"
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/users/RegisterView.vue'
 
@@ -11,8 +12,11 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/users',
-      name: 'Users',
+      path: '/me',
+      name: 'Profile',
+      meta: {
+        loginRequired: true
+      },
       component: HomeView
     },
     {
@@ -23,9 +27,19 @@ const router = createRouter({
     {
       path: '/logout',
       name: 'logout',
+      meta: {
+        loginRequired: true
+      },
       component: HomeView
     }
   ]
+})
+
+router.beforeEach(async (to) => {
+  const isAuthenticated = getCookie('auth');
+  if (!isAuthenticated && to.meta.loginRequired){
+    return { name: 'login' }
+  } else if (isAuthenticated && to.name === 'login') return { name: "Profile" }
 })
 
 export default router

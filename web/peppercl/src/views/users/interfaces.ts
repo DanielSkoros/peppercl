@@ -11,8 +11,9 @@ export interface IErrorInterface {
 }
 
 export interface IFormValidationResponse {
+    token: string,
     error: string,
-    message: any
+    message: any,
 }
 
 export interface IFormValidation {

@@ -22,3 +22,8 @@ export const request = async ({ url = '', method = 'GET', query = {}, body = {},
   const data = await res.json()
   return { status: res.status, data }
 }
+
+export const getCookie = (name: string) => {
+  const cookieMatch = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
+  return cookieMatch ? cookieMatch[1] : null;
+}

@@ -12,11 +12,22 @@ import {
   CoPowerStandby,
   LaEnvelope,
   BiLock,
-  FaUser, 
-  FaTimes
+  FaUser,
+  FaTimes,
+  MdDirectionsbike
 } from 'oh-vue-icons/icons'
 
-addIcons(BiSearch, CoUser, IoHomeOutline, CoPowerStandby, LaEnvelope, BiLock, FaUser, FaTimes )
+addIcons(
+  BiSearch,
+  CoUser,
+  IoHomeOutline,
+  CoPowerStandby,
+  LaEnvelope,
+  BiLock,
+  FaUser,
+  FaTimes,
+  MdDirectionsbike
+)
 
 const app = createApp(App)
 

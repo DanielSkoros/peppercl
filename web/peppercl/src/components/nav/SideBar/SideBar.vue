@@ -29,6 +29,7 @@ import { useRoute } from 'vue-router'
 import SearchBar from '../NavItem/SearchBar.vue'
 import NavItem from '../NavItem/NavItem.vue'
 import { getBottomNav, getNavRoutes, type INavItem } from '@/constants/nav'
+import { getCookie } from '@/utils/request'
 
 const route = useRoute()
 const emit = defineEmits(['open'])
@@ -40,13 +41,16 @@ const setIsOpen = (state: boolean | undefined = undefined) => {
   emit('open', isOpen.value)
 }
 
+const isAuthenticated = ref<string | null>(getCookie('auth'));
 const navRoutes = ref<Array<INavItem>>(getNavRoutes())
-const lowerRoutes = ref<Array<INavItem>>(getBottomNav())
+const lowerRoutes = ref<Array<INavItem>>(getBottomNav(!!isAuthenticated.value))
 
 watch(
   () => route.name,
   () => {
     setIsOpen(false)
+    isAuthenticated.value = getCookie('auth');
+    lowerRoutes.value = getBottomNav(!!isAuthenticated.value)
   }
 )
 </script>

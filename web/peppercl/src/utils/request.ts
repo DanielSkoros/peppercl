@@ -1,3 +1,5 @@
+import router from "@/router"
+
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
 export interface IRequestArgs {
@@ -13,6 +15,7 @@ export const request = async ({ url = '', method = 'GET', query = {}, body = {},
     query,
     headers: {
       "Content-Type": "application/json",
+      "auth": getCookie('auth'),
       ...headers
     }
   }
@@ -20,7 +23,9 @@ export const request = async ({ url = '', method = 'GET', query = {}, body = {},
   if (method == 'POST') requestArgs.body = typeof body !== 'string' ? JSON.stringify(body) : body
   const res = await fetch(`${BASE_URL}${url}`, requestArgs)
   const data = await res.json()
-  return { status: res.status, data }
+  const { status } = res;
+  if (status == 401) return router.push({name: 'login'})
+  return { status, data }
 }
 
 export const getCookie = (name: string) => {

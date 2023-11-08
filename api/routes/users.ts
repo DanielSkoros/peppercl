@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { IUser } from "../db/models/user";
+import { BlacklistTokenModel } from "../db/models/blacklistToken";
+import { log } from "console";
+import { loginRequiredMiddleware } from "../middleware/auth";
 
 var express = require("express");
 var router = express.Router();
@@ -21,7 +24,7 @@ router.get(
     req: { params: { id: string } },
     res: { send: (arg0: IUser) => void }
   ) => {
-    const user = await UserModel.find({ id: req.params.id });
+    const user = await UserModel.findOne({ id: req.params.id });
     res.send(user);
   }
 );
@@ -52,7 +55,7 @@ router.post(
       user.password
     );
     if (!passwordsMatch) return sendError();
-    
+
     const token = jwt.sign(
       {
         data: userBody.email,
@@ -60,7 +63,7 @@ router.post(
       "secret",
       { expiresIn: "24h" }
     );
-    res.cookie("auth", token.toString()).send({token});
+    res.cookie("auth", token.toString()).send({ token });
   }
 );
 
@@ -76,6 +79,28 @@ router.post(
       const userRes = await user.save();
       res.send(userRes);
     } catch (err: any) {
+      res.status(400).json({
+        error: "Validation error",
+        message: err,
+      });
+    }
+  }
+);
+
+router.post(
+  "/logout",
+  [loginRequiredMiddleware],
+  async function (
+    req: { json: (arg0: any) => any; body: any },
+    res: { send: (arg0: any) => void; status: (arg0: number) => any }
+  ) {
+    const token = req.body.token;
+    try {
+      const blacklistedToken = new BlacklistTokenModel({token});
+      const blacklistedTokenRes = await blacklistedToken.save();
+      res.send(blacklistedTokenRes);
+    } catch (err: any) {
+      log(err)
       res.status(400).json({
         error: "Validation error",
         message: err,

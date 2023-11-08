@@ -1,3 +1,4 @@
+import { getCookie, request } from '@/utils/request'
 import type { LocationQueryRaw, RouteParamsRaw } from 'vue-router'
 
 export interface INavItem {
@@ -21,7 +22,12 @@ export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> =
     icon: isUserLoggedIn ? 'co-power-standby' : 'co-user'
   }
   if (isUserLoggedIn) {
-    loginRoute.actionFn = () => {
+    loginRoute.actionFn = async () => {
+     await request({
+        url: '/users/logout',
+        method: 'POST',
+        body: { token: getCookie('auth') }
+      })
       document.cookie = 'auth=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
       window.location.href = '/'
     }

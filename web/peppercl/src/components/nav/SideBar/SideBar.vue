@@ -13,7 +13,7 @@
     </div>
     <nav>
       <div class="nav__item-wrapper">
-        <NavItem v-for="navItem in navRoutes" :key="navItem.name" v-bind="navItem" />
+        <NavItem v-for="navItem in navRoutes" :key="navItem.name" v-bind="navItem" :active="navItem.name === route.name"/>
       </div>
       <div class="nav__item-wrapper lower">
         <div class="separator"></div>
@@ -42,7 +42,7 @@ const setIsOpen = (state: boolean | undefined = undefined) => {
 }
 
 const isAuthenticated = ref<string | null>(getCookie('auth'));
-const navRoutes = ref<Array<INavItem>>(getNavRoutes())
+const navRoutes = ref<Array<INavItem>>(getNavRoutes(!!isAuthenticated.value, route.name))
 const lowerRoutes = ref<Array<INavItem>>(getBottomNav(!!isAuthenticated.value))
 
 watch(

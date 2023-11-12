@@ -32,3 +32,5 @@ export const getCookie = (name: string) => {
   const cookieMatch = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); 
   return cookieMatch ? cookieMatch[1] : null;
 }
+
+

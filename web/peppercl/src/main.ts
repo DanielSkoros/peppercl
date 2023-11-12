@@ -14,7 +14,12 @@ import {
   BiLock,
   FaUser,
   FaTimes,
-  MdDirectionsbike
+  MdDirectionsbike,
+  CoCog,
+  BiBellFill,
+  BiStarFill,
+  BiPlusLg,
+  BiPencil 
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -26,7 +31,12 @@ addIcons(
   BiLock,
   FaUser,
   FaTimes,
-  MdDirectionsbike
+  MdDirectionsbike,
+  CoCog,
+  BiBellFill,
+  BiStarFill,
+  BiPlusLg,
+  BiPencil 
 )
 
 const app = createApp(App)

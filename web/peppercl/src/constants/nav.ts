@@ -1,5 +1,5 @@
 import { getCookie, request } from '@/utils/request'
-import type { LocationQueryRaw, RouteParamsRaw } from 'vue-router'
+import type { LocationQueryRaw, RouteParamsRaw, RouteRecordName } from 'vue-router'
 
 export interface INavItem {
   name: string
@@ -12,8 +12,11 @@ export interface INavItem {
   query?: LocationQueryRaw
 }
 
-export const getNavRoutes = (): Array<INavItem> => {
-  return [...getMainNav()]
+export const getNavRoutes = (
+  isUserLoggedIn: Boolean = false,
+  currentRoute: RouteRecordName  = ''
+): Array<INavItem> => {
+  return [...getMainNav(isUserLoggedIn, currentRoute)]
 }
 
 export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> => {
@@ -23,7 +26,7 @@ export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> =
   }
   if (isUserLoggedIn) {
     loginRoute.actionFn = async () => {
-     await request({
+      await request({
         url: '/users/logout',
         method: 'POST',
         body: { token: getCookie('auth') }
@@ -35,37 +38,33 @@ export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> =
   return [loginRoute]
 }
 
-const getMainNav = (): Array<INavItem> => {
-  return [
+const getMainNav = (isUserLoggedIn: Boolean = false, currentRoute: RouteRecordName = ''): Array<INavItem> => {
+  const homeRoute = {
+    name: 'Home',
+    link: '/Home',
+    icon: 'io-home-outline'
+  }
+  const routesToDisplay = [homeRoute]
+  if (!isUserLoggedIn) return routesToDisplay
+  const userRoutes = [
     {
-      name: 'Home',
-      link: '/Home',
-      icon: 'io-home-outline'
+      name: 'Settings',
+      link: '/user/settings',
+      label: 'Settings',
+      icon: 'co-cog'
     },
     {
       name: 'Home',
       link: '/Home',
-      icon: 'io-home-outline'
+      label: 'Notifications',
+      icon: 'bi-bell-fill'
     },
     {
       name: 'Home',
       link: '/Home',
-      icon: 'io-home-outline'
-    },
-    {
-      name: 'Home',
-      link: '/Home',
-      icon: 'io-home-outline'
-    },
-    {
-      name: 'Home',
-      link: '/Home',
-      icon: 'io-home-outline'
-    },
-    {
-      name: 'Home',
-      link: '/Home',
-      icon: 'io-home-outline'
+      label: 'Favourites',
+      icon: 'bi-star-fill'
     }
   ]
+  return [...routesToDisplay, ...userRoutes]
 }

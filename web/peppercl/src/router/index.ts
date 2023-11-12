@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getCookie } from "../utils/request.ts"
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/users/RegisterView.vue'
+import UserSettings from '../views/users/settings/UserSettings.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,12 +13,18 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/me',
-      name: 'Profile',
+      path: '/user',
+      name: 'User',
       meta: {
         loginRequired: true
       },
-      component: HomeView
+      children: [
+        {
+          path: 'settings',
+          name: 'Settings',
+          component: UserSettings
+        },
+      ]
     },
     {
       path: '/login',

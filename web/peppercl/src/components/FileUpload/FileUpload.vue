@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { LocationQueryRaw, RouteParamsRaw } from 'vue-router'
+import { request } from '@/utils/request'
 
 interface IFileUpload {
   url: string
@@ -12,7 +14,7 @@ interface IFileUpload {
   params?: RouteParamsRaw
   query?: LocationQueryRaw
 }
-withDefaults(defineProps<IFileUpload>(), {
+const props = withDefaults(defineProps<IFileUpload>(), {
   url: '',
   icon: 'bi-plus-lg',
   wrapperClasses: '',
@@ -29,22 +31,23 @@ withDefaults(defineProps<IFileUpload>(), {
   }
 })
 
+const file = ref(null)
 const submitFile = async () => {
-  const files = refs.file.files
-  const scopedFiles = multiple ? files : [files[0]]
+  const files = file.value.files
+  const scopedFiles = props.multiple ? files : [files[0]]
   const headers = { 'Content-Type': 'multipart/form-data' }
   for (let file of scopedFiles) {
     const formData = new FormData()
     formData.append('file', file)
     const { status, data } = await request({
-      url,
-      query,
-      params,
+      url: props.url,
+      query: props.query,
+      params: props.params,
+      body: formData,
       headers,
-      body: formData
     })
 
-    emit('upload', {status, fileName: data.fileName})
+    emit('upload', { status, fileName: data.fileName })
   }
 }
 </script>

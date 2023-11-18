@@ -9,7 +9,12 @@ export interface IRequestArgs {
   body?: BodyInit | null | undefined
 }
 
-export const request = async ({ url = '', method = 'GET', query = {}, body = {}, headers = {} }) => {
+interface IRequestResponse { 
+  status: number,
+  data: any
+}
+
+export const request = async ({ url = '', method = 'GET', query = {}, body = {}, headers = {} }): Promise<IRequestResponse> => {
   const requestArgs: IRequestArgs = {
     method,
     query,

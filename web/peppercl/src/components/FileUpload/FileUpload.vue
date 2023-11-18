@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<IFileUpload>(), {
   }
 })
 
+const emit = defineEmits(['upload'])
+
 const file = ref(null)
 const submitFile = async () => {
   const files = file.value.files
@@ -42,7 +44,6 @@ const submitFile = async () => {
     const { status, data } = await request({
       url: props.url,
       query: props.query,
-      params: props.params,
       body: formData,
       headers,
     })

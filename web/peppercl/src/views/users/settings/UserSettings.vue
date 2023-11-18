@@ -39,7 +39,7 @@ const logoFile = null
       <div class="logo-wrapper">
         <div class="logo-item relative">
           <v-icon v-if="!logoFile" name="co-user" scale="4" />
-          <FileUpload />
+          <FileUpload url="/users/logo"/>
         </div>
       </div>
       <div class="select-wrapper">

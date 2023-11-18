@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { IPost } from "./post";
+import { getUserFromToken } from "../../middleware/auth";
 
 export interface IUser {
   name: string;
@@ -47,3 +48,8 @@ userSchema.pre("save", async function(next) {
   });
 
 export const UserModel = mongoose.model<IUser>("User", userSchema);
+
+export const getUserByToken = async (token: string): Promise<IUser | null> => {
+  const user = await UserModel.findOne({email: getUserFromToken(token)})
+  return user
+}

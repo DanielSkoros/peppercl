@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import type { LocationQueryRaw, RouteParamsRaw } from 'vue-router'
 import { request } from '@/utils/request'
+import { MdUploadfile } from 'oh-vue-icons/icons'
 
 interface IFileUpload {
   url: string
@@ -34,21 +35,27 @@ const props = withDefaults(defineProps<IFileUpload>(), {
 const emit = defineEmits(['upload'])
 
 const file = ref(null)
-const submitFile = async () => {
-  const files = file.value.files
-  const scopedFiles = props.multiple ? files : [files[0]]
-  const headers = { 'Content-Type': 'multipart/form-data' }
-  for (let file of scopedFiles) {
-    const formData = new FormData()
-    formData.append('file', file)
-    const { status, data } = await request({
-      url: props.url,
-      query: props.query,
-      body: formData,
-      headers,
-    })
 
-    emit('upload', { status, fileName: data.fileName })
+const uploadFile = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  console.log(Object.entries(formData))
+  const { status, data } = await request({
+    url: props.url,
+    query: props.query,
+    body: formData,
+    method: 'POST',
+    isFileUpload: true
+  })
+
+  emit('upload', { status, fileName: data.fileName })
+}
+
+const submitFile = async () => {
+  const files = file.value?.files
+  const scopedFiles = props.multiple ? files : [files[0]]
+  for (let file of scopedFiles) {
+    uploadFile(file)
   }
 }
 </script>
@@ -57,6 +64,7 @@ const submitFile = async () => {
   <div :class="`add-file-wrapper ${wrapperClasses}`" v-if="show">
     <input
       type="file"
+      name="file"
       id="fileElem"
       :multiple="multiple"
       accept="image/*"

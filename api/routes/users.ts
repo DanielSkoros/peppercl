@@ -1,12 +1,27 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { IUser } from "../db/models/user";
+import { IUser, getUserByToken } from "../db/models/user";
 import { BlacklistTokenModel } from "../db/models/blacklistToken";
 import { log } from "console";
-import { loginRequiredMiddleware } from "../middleware/auth";
+import { getUserFromToken, loginRequiredMiddleware } from "../middleware/auth";
+import { UserLogo } from "../files/userLogo";
+import multer from "multer"
+import { BaseFile } from "../files/baseFile";
 
 var express = require("express");
 var router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: new BaseFile().path,
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+
+const upload = multer({
+  limits: {fileSize: 50*1024*1024},
+  storage: storage,
+})
 
 const { UserModel } = require("../db/models/user.ts");
 /* GET users listing. */
@@ -109,4 +124,13 @@ router.post(
   }
 );
 
+router.post("/logo", [loginRequiredMiddleware, upload.single('file')], async function (req: { file: any; headers: { auth: string; }; }, res: any) {
+  const file = req.file;
+  const user = await getUserByToken(req.headers.auth)
+  const { path } = file;
+  new UserLogo(file.originalname, user?.email).save(path)
+  res.send(200)
+})
+
 module.exports = router;
+

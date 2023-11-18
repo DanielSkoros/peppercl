@@ -28,7 +28,7 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchBar from '../NavItem/SearchBar.vue'
 import NavItem from '../NavItem/NavItem.vue'
-import { getBottomNav, getNavRoutes, type INavItem } from '@/constants/nav'
+import { getBottomNav, getMainNav, type INavItem } from '@/constants/nav'
 import { getCookie } from '@/utils/request'
 
 const route = useRoute()
@@ -42,7 +42,7 @@ const setIsOpen = (state: boolean | undefined = undefined) => {
 }
 
 const isAuthenticated = ref<string | null>(getCookie('auth'));
-const navRoutes = ref<Array<INavItem>>(getNavRoutes(!!isAuthenticated.value, route.name))
+const navRoutes = ref<Array<INavItem>>(getMainNav(!!isAuthenticated.value, route.name))
 const lowerRoutes = ref<Array<INavItem>>(getBottomNav(!!isAuthenticated.value))
 
 watch(

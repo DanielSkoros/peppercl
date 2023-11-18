@@ -12,13 +12,6 @@ export interface INavItem {
   query?: LocationQueryRaw
 }
 
-export const getNavRoutes = (
-  isUserLoggedIn: Boolean = false,
-  currentRoute: RouteRecordName  = ''
-): Array<INavItem> => {
-  return [...getMainNav(isUserLoggedIn, currentRoute)]
-}
-
 export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> => {
   const loginRoute: INavItem = {
     name: isUserLoggedIn ? 'logout' : 'login',
@@ -38,7 +31,7 @@ export const getBottomNav = (isUserLoggedIn: boolean = false): Array<INavItem> =
   return [loginRoute]
 }
 
-const getMainNav = (isUserLoggedIn: Boolean = false, currentRoute: RouteRecordName = ''): Array<INavItem> => {
+export const getMainNav = (isUserLoggedIn: Boolean = false, currentRoute: RouteRecordName = ''): Array<INavItem> => {
   const homeRoute = {
     name: 'Home',
     link: '/Home',
